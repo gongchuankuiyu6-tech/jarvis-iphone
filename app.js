@@ -32,13 +32,63 @@ function speak(text){
 if("speechSynthesis" in window) window.speechSynthesis.onvoiceschanged=()=>{};
 
 function respond(raw){
-  const q=raw.trim(); if(!q)return;
-  addMessage("YOU",q);
-  const s=q.toLowerCase();
-  let answer;
+  
+async function respond(raw){
+  const q = raw.trim();
+  if(!q) return;
+
+  addMessage("YOU", q);
+
+  let answer = "";
+
+  // 時刻と日付は今まで通り端末で確認
   if(/何時|時刻|時間/.test(q)){
-    answer="現在の時刻は、"+new Date().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"})+"です。";
+    answer = "現在の時刻は、" +
+      new Date().toLocaleTimeString("ja-JP", {
+        hour:"2-digit", minute:"2-digit"
+      }) + "です。";
   }else if(/日付|何日|今日/.test(q)){
+    answer = "本日は、" +
+      new Date().toLocaleDateString("ja-JP", {
+        year:"numeric", month:"long",
+        day:"numeric", weekday:"long"
+      }) + "です。";
+  }else{
+    try{
+      const response = await fetch(
+        "https://jarvis-chat-api-backend--gongchuankuiyu6.replit.app/api/chat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: q,
+            history: []
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if(!response.ok){
+        throw new Error(
+          data.error?.message || "サーバーとの通信に失敗しました。"
+        );
+      }
+
+      answer = data.reply || "回答を取得できませんでした。";
+
+    }catch(error){
+      answer = "申し訳ありません。AIサーバーに接続できませんでした。";
+      console.error(error);
+    }
+  }
+
+  addMessage("JARVIS", answer);
+  speak(answer);
+}
+}else if(/日付|何日|今日/.test(q)){
     answer="本日は、"+new Date().toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"long"})+"です。";
   }else if(/できること|ヘルプ|使い方/.test(q)){
     answer="現在は、時刻と日付の確認、簡単な応答、音声読み上げに対応しています。AIによる自由な会話やWeb検索は、安全なサーバー接続を追加すると利用できるようになります。";
