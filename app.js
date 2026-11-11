@@ -30,9 +30,7 @@ function speak(text){
   window.speechSynthesis.speak(utterance);
 }
 if("speechSynthesis" in window) window.speechSynthesis.onvoiceschanged=()=>{};
-
-function respond(raw){
-  
+ 
 async function respond(raw){
   const q = raw.trim();
   if(!q) return;
