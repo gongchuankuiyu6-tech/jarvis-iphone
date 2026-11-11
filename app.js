@@ -102,18 +102,6 @@ $("clearButton").addEventListener("click",()=>{
   messages.innerHTML="";
 });
 
-}else if(/日付|何日|今日/.test(q)){
-    answer="本日は、"+new Date().toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"long"})+"です。";
-  }else if(/できること|ヘルプ|使い方/.test(q)){
-    answer="現在は、時刻と日付の確認、簡単な応答、音声読み上げに対応しています。AIによる自由な会話やWeb検索は、安全なサーバー接続を追加すると利用できるようになります。";
-  }else if(/こんにちは|おはよう|こんばんは/.test(q)){
-    answer="こんにちは。いつでもお手伝いいたします。ご用件をどうぞ。";
-  }else if(/名前/.test(q)){
-    answer="私はJ.A.R.V.I.S.。あなたをサポートするパーソナルアシスタントです。";
-  }else{
-    answer="ご指示を受け取りました。現在のデモ版では自由なAI回答には未接続です。次の開発段階でAIサービスを安全なサーバー経由で接続できます。";
-  }
-
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(SpeechRecognition){
   recognition=new SpeechRecognition();recognition.lang="ja-JP";recognition.interimResults=false;recognition.maxAlternatives=1;
