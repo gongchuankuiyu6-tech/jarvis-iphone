@@ -113,11 +113,6 @@ $("clearButton").addEventListener("click",()=>{
   }else{
     answer="ご指示を受け取りました。現在のデモ版では自由なAI回答には未接続です。次の開発段階でAIサービスを安全なサーバー経由で接続できます。";
   }
-  setTimeout(()=>{addMessage("JARVIS",answer);speak(answer);},250);
-}
-$("chatForm").addEventListener("submit",e=>{e.preventDefault();const v=$("chatInput").value;$("chatInput").value="";respond(v);});
-document.querySelectorAll(".quick").forEach(b=>b.addEventListener("click",()=>respond(b.dataset.command)));
-$("clearButton").addEventListener("click",()=>{messages.innerHTML="";});
 
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(SpeechRecognition){
