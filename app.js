@@ -1,4 +1,3 @@
-alert("JARVISのJavaScriptが起動しました！");
 const $ = (id) => document.getElementById(id);
 const messages = $("messages");
 let recognition = null;
