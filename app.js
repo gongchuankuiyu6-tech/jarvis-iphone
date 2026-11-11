@@ -88,6 +88,22 @@ async function respond(raw){
   addMessage("JARVIS", answer);
   speak(answer);
 }
+
+$("chatForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const v=$("chatInput").value;
+  $("chatInput").value="";
+  respond(v);
+});
+
+document.querySelectorAll(".quick").forEach(b=>{
+  b.addEventListener("click",()=>respond(b.dataset.command));
+});
+
+$("clearButton").addEventListener("click",()=>{
+  messages.innerHTML="";
+});
+
 }else if(/日付|何日|今日/.test(q)){
     answer="本日は、"+new Date().toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"long"})+"です。";
   }else if(/できること|ヘルプ|使い方/.test(q)){
